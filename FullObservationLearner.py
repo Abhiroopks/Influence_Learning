@@ -2,10 +2,12 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-from matplotlib import pyplot as plt
-
 """
 Learns the incoming edge weights and threshold for a particular node in an influence network
+
+Important to note that the datasets given are FULL observations: that is, they show the state of the network
+throughout the influence cascades, at every time step. Using this information, we can estimate the incoming weights
+of edges for every node.
 
 Parameters
 ----------
@@ -41,11 +43,14 @@ def learn(node, input_data):
         
     # Perceptron Algorithm
     # We assume realizability, so keep training until 0 error achieved on training set
+    # Or max iterations over training set is met
     
     done = False
     iter = 0
+    rate = 0.01
+    maxRounds = 10
 
-    while not done:
+    while not done and iter < maxRounds:
         iter += 1
         done = True
         # each training data point x = each row of X
@@ -55,7 +60,7 @@ def learn(node, input_data):
             
             # Wrong predicton - update weights. Ensure another round of learning occurs
             if(guess*Y_train[i] <= 0):
-                hyp += X_train[i]*Y_train[i]
+                hyp += X_train[i]*Y_train[i]*rate
                 done = False
             
             
