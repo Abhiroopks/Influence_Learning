@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import itertools
 
 
@@ -34,9 +35,39 @@ def genSamples(network):
         out.append(matrix)
 
     return out
+
+
+'''
+Builds matrix cascades from the SMH datasets. Each csv file is one cascade
+
+'''
+def smhData():
+    
+    out = []
+    
+    # number of unique users in SMH dataset
+    N = 1695
+    
+    
+    for i in range(20):
+        df = pd.read_csv(f'SMH/SMH-cascade-{i}.csv')
+        
+        matrix = np.zeros((N,N))
+        prev_row = np.zeros(N)
+        
+        for index, row in df.iterrows():
+            user_id = row['user_id']
+            matrix[index] = np.copy(prev_row)
+            matrix[index][user_id] = 1
+            prev_row = matrix[index]
             
+        # append redundant rows to end (for consistency)
+        for i in range(N - df.shape[0]):
+            matrix[df.shape[0] + i] = matrix[df.shape[0] - 1]
             
-            
+        out.append(matrix)
+        
+    return out
             
             
             
