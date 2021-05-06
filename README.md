@@ -48,3 +48,24 @@ https://github.com/computationalmedia/cascade-influence
 ArnetMiner: Extraction and Mining of Academic Social Networks. In
 Proceedings of the Fourteenth ACM SIGKDD International Conference
 on Knowledge Discovery and Data Mining (SIGKDD’2008). pp.990-998
+
+[7] Chollet, Franc¸ois. Keras, 2015. Github. https://github.com/fchollet/keras
+
+[8] Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12,
+pp. 2825-2830, 2011.
+
+[9] Mart´ın Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng
+Chen, Craig Citro, Greg S. Corrado, Andy Davis, Jeffrey Dean, Matthieu
+Devin, Sanjay Ghemawat, Ian Goodfellow, Andrew Harp, Geoffrey
+Irving, Michael Isard, Rafal Jozefowicz, Yangqing Jia, Lukasz Kaiser,
+Manjunath Kudlur, Josh Levenberg, Dan Man´e, Mike Schuster, Rajat
+Monga, Sherry Moore, Derek Murray, Chris Olah, Jonathon Shlens,
+Benoit Steiner, Ilya Sutskever, Kunal Talwar, Paul Tucker, Vincent
+Vanhoucke, Vijay Vasudevan, Fernanda Vi´egas, Oriol Vinyals, Pete
+Warden, Martin Wattenberg, Martin Wicke, Yuan Yu, and Xiaoqiang
+Zheng. TensorFlow: Large-scale machine learning on heterogeneous
+systems, 2015. Software available from tensorflow.org.
+
+[10] Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming
+with NumPy. Nature 585, 357–362 (2020). DOI: 0.1038/s41586-020-
+2649-2.
