@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import itertools
+import Network
 
 
 """
@@ -19,7 +20,7 @@ out : 2^N x (N x N) array
 
 """
     
-def genSamples(network):
+def genSamples(network, visualize=False):
 
     N = network.num_nodes
 
@@ -31,7 +32,7 @@ def genSamples(network):
                         
         # run the simulation and get the output matrix
         
-        matrix = network.simulate(list(init_infl))
+        matrix = network.simulate(list(init_infl), visualize=visualize)
         out.append(matrix)
 
     return out
@@ -50,7 +51,7 @@ def smhData():
     
     
     for i in range(20):
-        df = pd.read_csv(f'SMH/SMH-cascade-{i}.csv')
+        df = pd.read_csv(f'Datasets/SMH/SMH-cascade-{i}.csv')
         
         matrix = np.zeros((N,N))
         prev_row = np.zeros(N)
@@ -70,6 +71,28 @@ def smhData():
     return out
             
             
+    
+'''
+Constructs graph from Kissler Dataset, and generates data from simulations
+
+'''
+def kisslerData():
+    
+    df = pd.read_csv('Datasets/Kissler_DataS1.csv')    
+    
+    # Find average distance between individuals over all time steps
+    df = df.values
+    
+    N = 469
+    
+    sum_distance = np.zeros((N,N))
+    
+    print(df.shape)
+    
+    
+    
+    
+    
             
 
         

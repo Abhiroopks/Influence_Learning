@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
@@ -19,39 +20,50 @@ input_data: (S x (N x N)) matrix
        but really each row of each matrix can be used for training
     N: # of nodes in the network
     
+test_size: float
+    Fraction of input data to use for validation
+
+fraction: foat
+    Overall fraction of training data to use
+    
 Returns
 ----------
 hyp: (N+1) weights corresponding to the incoming edge weights for the local node, and local threshold
     
 """
     
-def learn(node, input_data):
+def learn(node, input_data, test_size=0.25, fraction = 1):
 
+    #truncated = random.sample(input_data, int(fraction * len(input_data)))
     data = np.array(input_data)
-    
+
     (X,Y) = process(node=node, data=data)  
     
-    # test_size is large because we are given ALL data possible
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.95,random_state=42)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size,random_state=42)
+    
+    # Truncate portion of training data based on specified fraction
+    
+    use_training = int(fraction * len(X_train))
+    X_train = X_train[:use_training - 1]
+    Y_train = Y_train[:use_training - 1]
     
     num_dimensions = X_train.shape[1]
         
     num_samples = X_train.shape[0]
-    
+        
     # the weights we are learning - init to 0
     hyp = np.zeros(num_dimensions)
         
     # Perceptron Algorithm
-    # We assume realizability, so keep training until 0 error achieved on training set
-    # Or max iterations over training set is met
+    # Although there exists a set of weights with 0 training error, limit the # of rounds for time considerations
     
     done = False
-    iter = 0
-    rate = 0.01
-    maxRounds = 10
+    currRound = 0
+    rate = 0.005
+    maxRounds = 50
 
-    while not done and iter < maxRounds:
-        iter += 1
+    while not done and currRound < maxRounds:
+        currRound += 1
         done = True
         # each training data point x = each row of X
         for i in range(num_samples):
@@ -64,9 +76,9 @@ def learn(node, input_data):
                 done = False
             
             
-    # calculate final training error (should be 0 to leave the above loop)
+    # calculate final training error (should be 0, or close to it if underlying mechanism is Linear Threshold)
     
-    print("Rounds: " + str(iter))
+    #print("Rounds: " + str(currRound))
     
     err = 0
     
@@ -76,21 +88,30 @@ def learn(node, input_data):
             err += 1
     
     err /= num_samples
+    
+    train_err = err
                    
-    print("node " + str(node) + " train error rate: " + str(err))           
-
     # Validate hypothesis on test set
     err = 0
+    naive_0_err = 0
+    naive_1_err = 0
+    
     guesses = np.sign(np.matmul(X_test, hyp) * Y_test)
     for i in range(X_test.shape[0]):
         if guesses[i] <= 0:
-            err += 1 
+            err += 1
+        if Y_test[i] == -1:
+            naive_1_err += 1
+        elif Y_test[i] == 1:
+            naive_0_err += 1
             
     err /= X_test.shape[0]
-                
-    print("node " + str(node) + " test error rate: " + str(err))
+    naive_0_err /= X_test.shape[0]
+    naive_1_err /= X_test.shape[0]
+               
+    test_err = err
     
-    return hyp
+    return train_err, test_err, naive_0_err, naive_1_err
 
 
 """
@@ -119,7 +140,7 @@ Y: array for the state of the node of interest
 
 """
 def process(node, data):
-    
+        
     S = data.shape[0]
     num_nodes = data.shape[1]
     

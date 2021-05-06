@@ -1,0 +1,5 @@
+
+mean test err: 6.93755158759183e-05
+mean train err: 3.896110056739092e-05
+mean naive_0 err: 0.05854080655211896
+mean naive_1 err: 0.9414591934478793
